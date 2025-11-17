@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>首页导航栏</title>
+    <link rel="stylesheet" href="styles.css" />
+    <style>
+        .radar-container {
+            position: fixed;
+            top: 160px;
+            right: 300px;
+            width: 500px;
+            height: 500px;
+            max-width: 500px;
+            max-height: 500px;
+            min-width: 250px;
+            min-height: 250px;
+            background-color: transparent;
+            z-index: 1000;
+            pointer-events: none;
+        }
+
+        .radar-canvas {
+            width: 100%;
+            height: 100%;
+            display: block;
+        }
+
+        /* 文章框样式 */
+        .articles-container {
+            position: relative;
+            z-index: 2000; /* 确保在雷达之上显示 */
+            width: 80%;
+            margin: 80px auto 40px; /* 顶部距离导航栏，底部留空 */
+            padding-top: 600px; /* 避开雷达区域 */
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 30px;
+        }
+
+        .article-box {
+            background-color: rgba(0, 0, 0, 0.7);
+            border: 1px solid rgba(88, 178, 204, 0.5);
+            border-radius: 8px;
+            padding: 20px;
+            box-shadow: 0 0 15px rgba(88, 178, 204, 0.3);
+        }
+
+        .article-box h2 {
+            color: #58B2CC;
+            border-bottom: 2px solid #58B2CC;
+            padding-bottom: 10px;
+            margin-top: 0;
+        }
+
+        .article-content {
+            color: #ffffff;
+            margin-top: 15px;
+        }
+
+        .article-item {
+            margin-bottom: 12px;
+            padding-bottom: 8px;
+            border-bottom: 1px dashed rgba(88, 178, 204, 0.3);
+        }
+
+        .article-item:last-child {
+            border-bottom: none;
+        }
+
+        .article-item a {
+            color: #ffffff;
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+
+        .article-item a:hover {
+            color: #58B2CC;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="navbar">
+            <div class="logo">
+                <img src="logo.png" alt="Logo" />
+            </div>
+            <nav class="nav-links">
+                <ul>
+                    <li><a href="index.html">官方首页</a></li>
+                    <li><a href="#">玩法介绍</a></li>
+                    <li><a href="id.html">排行榜</a></li>
+                    <li><a href="#">公告</a></li>
+                    <li><a href="#">博客</a></li>
+                </ul>
+            </nav>
+        </div>
+        <img class="index-header" src="index-header.png" alt="" />
+    </header>
+
+    <!-- 雷达容器 -->
+    <div class="radar-container">
+        <canvas id="radar" class="radar-canvas" width="500" height="500"></canvas>
+    </div>
+
+    <!-- 文章框容器 -->
+    <div class="articles-container">
+        <!-- 赛事新闻 -->
+        <div class="article-box">
+            <h2>赛事新闻</h2>
+            <div class="article-content">
+                <div class="article-item">
+                    <a href="#">2023年度总决赛赛程公布，12月15日正式开赛</a>
+                </div>
+                <div class="article-item">
+                    <a href="#">卫冕冠军战队宣布新赛季阵容，引入两名新星</a>
+                </div>
+                <div class="article-item">
+                    <a href="#">分区预选赛圆满结束，八强名单正式出炉</a>
+                </div>
+            </div>
+        </div>
+
+<!-- 玩法介绍 -->
+<div class="article-box">
+    <h2>玩法介绍</h2>
+    <div class="article-content" style="text-align: center; padding: 10px 0;">
+        <!-- 替换为图片，并设置最大宽度为父容器的100% -->
+        <img src="ctfwar-rules.jpg" alt="玩法介绍图片" 
+             style="width: 100%; max-width: 100%; height: auto; 
+                    border-radius: 4px; border: 1px solid rgba(88, 178, 204, 0.3);">
+    </div>
+</div>
+
+        <!-- 官方公告 -->
+        <div class="article-box">
+            <h2>官方公告</h2>
+            <div class="article-content">
+                <div class="article-item">
+                    <a href="#">关于系统维护升级的通知（11月20日）</a>
+                </div>
+                <div class="article-item">
+                    <a href="#">新用户注册福利活动延长至月底</a>
+                </div>
+                <div class="article-item">
+                    <a href="#">官方客服渠道变更公告</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="radar.js"></script>
+</body>
+</html>

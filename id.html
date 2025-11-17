@@ -1,0 +1,511 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>排行榜</title>
+    <link rel="stylesheet" href="styles.css" />
+    <style>
+        /* 排行榜容器样式 */
+        .ranking-container {
+            position: relative;
+            z-index: 2000;
+            width: 80%;
+            max-width: 1000px;
+            margin: 120px auto 60px;
+            background-color: rgba(0, 0, 0, 0.75);
+            border: 1px solid rgba(88, 178, 204, 0.5);
+            border-radius: 12px;
+            padding: 30px;
+            box-shadow: 0 0 30px rgba(88, 178, 204, 0.35);
+        }
+
+        .ranking-title {
+            color: #58B2CC;
+            text-align: center;
+            margin-top: 0;
+            margin-bottom: 30px;
+            padding-bottom: 15px;
+            border-bottom: 2px solid #58B2CC;
+            font-size: 28px;
+            text-shadow: 0 0 10px rgba(88, 178, 204, 0.5);
+        }
+
+        /* 排行榜列表样式 */
+        .ranking-list {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        .ranking-item {
+            display: flex;
+            align-items: center;
+            padding: 15px 20px;
+            border-bottom: 1px dashed rgba(88, 178, 204, 0.3);
+            transition: all 0.3s ease;
+            border-radius: 6px;
+            margin-bottom: 8px;
+        }
+
+        .ranking-item:last-child {
+            border-bottom: none;
+        }
+
+        .ranking-item:hover {
+            background-color: rgba(88, 178, 204, 0.1);
+            transform: translateX(5px);
+        }
+
+        .rank {
+            width: 50px;
+            height: 50px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 20px;
+            font-weight: bold;
+            color: #fff;
+            margin-right: 20px;
+            transition: all 0.3s ease;
+        }
+
+        /* 前三名特殊样式 */
+        .rank.top-1 {
+            background: linear-gradient(135deg, #FFD700, #FFA500);
+            border-radius: 50%;
+            color: #000;
+            box-shadow: 0 0 15px rgba(255, 215, 0, 0.6);
+            width: 60px;
+            height: 60px;
+            font-size: 24px;
+        }
+
+        .rank.top-2 {
+            background: linear-gradient(135deg, #E0E0E0, #A9A9A9);
+            border-radius: 50%;
+            color: #000;
+            box-shadow: 0 0 15px rgba(192, 192, 192, 0.6);
+            width: 55px;
+            height: 55px;
+            font-size: 22px;
+        }
+
+        .rank.top-3 {
+            background: linear-gradient(135deg, #CD7F32, #D2691E);
+            border-radius: 50%;
+            box-shadow: 0 0 15px rgba(205, 127, 50, 0.6);
+            width: 52px;
+            height: 52px;
+            font-size: 21px;
+        }
+
+        /* 前三名整行特殊样式 */
+        .ranking-item.top-1-item {
+            background-color: rgba(255, 215, 0, 0.08);
+            border: 1px solid rgba(255, 215, 0, 0.3);
+        }
+
+        .ranking-item.top-2-item {
+            background-color: rgba(192, 192, 192, 0.08);
+            border: 1px solid rgba(192, 192, 192, 0.3);
+        }
+
+        .ranking-item.top-3-item {
+            background-color: rgba(205, 127, 50, 0.08);
+            border: 1px solid rgba(205, 127, 50, 0.3);
+        }
+
+        .avatar {
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            object-fit: cover;
+            margin-right: 30px;
+            transition: all 0.3s ease;
+            border-width: 3px;
+            border-style: solid;
+        }
+
+        /* 前三名头像边框特殊样式 */
+        .top-1-item .avatar {
+            border-color: #FFD700;
+            box-shadow: 0 0 15px rgba(255, 215, 0, 0.6);
+        }
+
+        .top-2-item .avatar {
+            border-color: #C0C0C0;
+            box-shadow: 0 0 15px rgba(192, 192, 192, 0.6);
+        }
+
+        .top-3-item .avatar {
+            border-color: #CD7F32;
+            box-shadow: 0 0 15px rgba(205, 127, 50, 0.6);
+        }
+
+        .user-info {
+            flex: 1;
+        }
+
+        .user-name {
+            font-size: 22px;
+            color: #fff;
+            margin: 0 0 8px 0;
+            text-shadow: 0 0 5px rgba(255, 255, 255, 0.2);
+        }
+
+        /* 战队信息样式优化 */
+        .team-info {
+            display: flex;
+            align-items: center;
+            color: rgba(255, 255, 255, 0.85);
+            font-size: 15px;
+            background-color: rgba(88, 178, 204, 0.1);
+            padding: 6px 12px;
+            border-radius: 20px;
+            width: fit-content;
+        }
+
+        .team-icon {
+            margin-right: 8px;
+            color: #58B2CC;
+        }
+
+        .team-size {
+            background-color: rgba(88, 178, 204, 0.2);
+            padding: 2px 8px;
+            border-radius: 10px;
+            margin-left: 10px;
+            font-size: 13px;
+        }
+
+        .points {
+            font-size: 24px;
+            font-weight: bold;
+            color: #58B2CC;
+            min-width: 120px;
+            text-align: right;
+            text-shadow: 0 0 8px rgba(88, 178, 204, 0.5);
+            transition: all 0.3s ease;
+        }
+
+        .ranking-item:hover .points {
+            transform: scale(1.05);
+        }
+
+        /* 分页样式 */
+        .pagination {
+            display: flex;
+            justify-content: center;
+            margin-top: 30px;
+        }
+
+        .page-btn {
+            background-color: rgba(0, 0, 0, 0.5);
+            border: 1px solid #58B2CC;
+            color: #58B2CC;
+            padding: 8px 15px;
+            margin: 0 5px;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .page-btn:hover {
+            background-color: rgba(88, 178, 204, 0.2);
+            transform: translateY(-2px);
+        }
+
+        .page-btn.active {
+            background-color: #58B2CC;
+            color: #000;
+            font-weight: bold;
+            box-shadow: 0 0 10px rgba(88, 178, 204, 0.5);
+        }
+
+        .page-btn:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+            border-color: rgba(88, 178, 204, 0.5);
+            color: rgba(88, 178, 204, 0.5);
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="navbar">
+            <div class="logo">
+                <img src="logo.png" alt="Logo" />
+            </div>
+            <nav class="nav-links">
+                <ul>
+                    <li><a href="index.html">官方首页</a></li>
+                    <li><a href="#">玩法介绍</a></li>
+                    <li><a href="id.html">排行榜</a></li>
+                    <li><a href="#">公告</a></li>
+                    <li><a href="#">博客</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <!-- 排行榜容器 -->
+    <div class="ranking-container">
+        <h1 class="ranking-title">人员排行榜</h1>
+        
+        <ul class="ranking-list" id="rankingList">
+            <!-- 排行榜内容将通过JavaScript动态生成 -->
+        </ul>
+        
+        <!-- 分页控件 -->
+        <div class="pagination">
+            <button class="page-btn" id="prevBtn" disabled>上一页</button>
+            <button class="page-btn active" data-page="1">1</button>
+            <button class="page-btn" data-page="2">2</button>
+            <button class="page-btn" data-page="3">3</button>
+            <button class="page-btn" id="nextBtn">下一页</button>
+        </div>
+    </div>
+
+    <script>
+        // 模拟排行榜数据
+        const rankingData = [
+            {
+                id: 1,
+                name: "张三",
+                avatar: "avatar1.jpg",
+                points: 9850,
+                team: "巅峰战队",
+                teamSize: 12
+            },
+            {
+                id: 2,
+                name: "李四",
+                avatar: "avatar2.jpg",
+                points: 9720,
+                team: "王者之师",
+                teamSize: 8
+            },
+            {
+                id: 3,
+                name: "王五",
+                avatar: "avatar3.jpg",
+                points: 9680,
+                team: "巅峰战队",
+                teamSize: 12
+            },
+            {
+                id: 4,
+                name: "赵六",
+                avatar: "avatar4.jpg",
+                points: 9510,
+                team: "星际漫游者",
+                teamSize: 5
+            },
+            {
+                id: 5,
+                name: "钱七",
+                avatar: "avatar5.jpg",
+                points: 9420,
+                team: "暗影猎手",
+                teamSize: 10
+            },
+            {
+                id: 6,
+                name: "孙八",
+                avatar: "avatar6.jpg",
+                points: 9350,
+                team: "王者之师",
+                teamSize: 8
+            },
+            {
+                id: 7,
+                name: "周九",
+                avatar: "avatar7.jpg",
+                points: 9280,
+                team: "烈火战队",
+                teamSize: 6
+            },
+            {
+                id: 8,
+                name: "吴十",
+                avatar: "avatar8.jpg",
+                points: 9150,
+                team: "星际漫游者",
+                teamSize: 5
+            },
+            {
+                id: 9,
+                name: "郑一",
+                avatar: "avatar9.jpg",
+                points: 9020,
+                team: "巅峰战队",
+                teamSize: 12
+            },
+            {
+                id: 10,
+                name: "王二",
+                avatar: "avatar10.jpg",
+                points: 8980,
+                team: "暗影猎手",
+                teamSize: 10
+            },
+            {
+                id: 11,
+                name: "陈三",
+                avatar: "avatar11.jpg",
+                points: 8850,
+                team: "烈火战队",
+                teamSize: 6
+            },
+            {
+                id: 12,
+                name: "杨四",
+                avatar: "avatar12.jpg",
+                points: 8720,
+                team: "雷霆战队",
+                teamSize: 7
+            },
+            {
+                id: 13,
+                name: "黄五",
+                avatar: "avatar13.jpg",
+                points: 8650,
+                team: "雷霆战队",
+                teamSize: 7
+            },
+            {
+                id: 14,
+                name: "刘六",
+                avatar: "avatar14.jpg",
+                points: 8580,
+                team: "王者之师",
+                teamSize: 8
+            },
+            {
+                id: 15,
+                name: "方七",
+                avatar: "avatar15.jpg",
+                points: 8450,
+                team: "星际漫游者",
+                teamSize: 5
+            }
+        ];
+
+        // 分页配置
+        const itemsPerPage = 5;
+        let currentPage = 1;
+        const totalPages = Math.ceil(rankingData.length / itemsPerPage);
+
+        // 获取DOM元素
+        const rankingList = document.getElementById('rankingList');
+        const prevBtn = document.getElementById('prevBtn');
+        const nextBtn = document.getElementById('nextBtn');
+        const pageBtns = document.querySelectorAll('.page-btn[data-page]');
+
+        // 渲染当前页数据
+        function renderPage(page) {
+            // 清空列表
+            rankingList.innerHTML = '';
+            
+            // 计算当前页数据的起始和结束索引
+            const startIndex = (page - 1) * itemsPerPage;
+            const endIndex = Math.min(startIndex + itemsPerPage, rankingData.length);
+            
+            // 获取当前页数据
+            const currentItems = rankingData.slice(startIndex, endIndex);
+            
+            // 渲染每个条目
+            currentItems.forEach((item, index) => {
+                const actualRank = startIndex + index + 1;
+                const listItem = document.createElement('li');
+                
+                // 前三名整行特殊样式
+                let itemClass = 'ranking-item';
+                let rankClass = '';
+                
+                if (actualRank === 1) {
+                    itemClass += ' top-1-item';
+                    rankClass = 'top-1';
+                } else if (actualRank === 2) {
+                    itemClass += ' top-2-item';
+                    rankClass = 'top-2';
+                } else if (actualRank === 3) {
+                    itemClass += ' top-3-item';
+                    rankClass = 'top-3';
+                }
+                
+                listItem.className = itemClass;
+                
+                listItem.innerHTML = `
+                    <div class="rank ${rankClass}">${actualRank}</div>
+                    <img src="${item.avatar}" alt="${item.name}" class="avatar">
+                    <div class="user-info">
+                        <h3 class="user-name">${item.name}</h3>
+                        <div class="team-info">
+                            <span class="team-icon">🏆</span>
+                            <span class="team-name">${item.team}</span>
+                            <span class="team-size">${item.teamSize}人</span>
+                        </div>
+                    </div>
+                    <div class="points">${item.points} 分</div>
+                `;
+                
+                rankingList.appendChild(listItem);
+            });
+            
+            // 更新分页按钮状态
+            updatePaginationButtons(page);
+        }
+
+        // 更新分页按钮状态
+        function updatePaginationButtons(page) {
+            currentPage = page;
+            
+            // 更新上一页/下一页按钮状态
+            prevBtn.disabled = currentPage === 1;
+            nextBtn.disabled = currentPage === totalPages;
+            
+            // 更新页码按钮状态
+            pageBtns.forEach(btn => {
+                const pageNum = parseInt(btn.dataset.page);
+                if (pageNum === currentPage) {
+                    btn.classList.add('active');
+                } else {
+                    btn.classList.remove('active');
+                }
+                
+                // 隐藏超过总页数的按钮
+                if (pageNum > totalPages) {
+                    btn.style.display = 'none';
+                } else {
+                    btn.style.display = 'inline-block';
+                }
+            });
+        }
+
+        // 事件监听
+        prevBtn.addEventListener('click', () => {
+            if (currentPage > 1) {
+                renderPage(currentPage - 1);
+            }
+        });
+
+        nextBtn.addEventListener('click', () => {
+            if (currentPage < totalPages) {
+                renderPage(currentPage + 1);
+            }
+        });
+
+        pageBtns.forEach(btn => {
+            btn.addEventListener('click', () => {
+                const page = parseInt(btn.dataset.page);
+                renderPage(page);
+            });
+        });
+
+        // 初始渲染第一页
+        renderPage(1);
+    </script>
+</body>
+</html>

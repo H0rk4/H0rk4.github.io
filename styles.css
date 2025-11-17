@@ -1,0 +1,276 @@
+body {
+    margin: 0;
+    font-family: Arial, sans-serif;
+    background-image: url('background.jpg'); /* 保持背景图 */
+    background-size: cover; /* 背景图覆盖 */
+    background-position: center; /* 背景居中 */
+    height: 100vh; /* 设置高度为视口高度 */
+    display: flex; /* 让 body 使用 flex 布局 */
+    flex-direction: column; /* 让内容垂直排列 */
+    justify-content: center; /* 居中内容 */
+}
+
+header {
+    position: fixed; /* 固定导航栏 */
+    top: 0;
+    left: 0;
+    width: 100%;
+    z-index: 1000;
+    padding: 0px 3px;
+}
+
+.navbar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+    background-color: rgba(0, 0, 0, 0.9); /* 设置导航栏背景为黑色，透明度为0.9 */
+    border-bottom: 2px solid rgba(88, 178, 204, 0.8); /* 设置底部边框 */
+    padding: 10px 0;
+}
+
+.logo img {
+    height: 60px;
+}
+
+.nav-links {
+    flex-grow: 1;
+    display: flex;
+    justify-content: center;
+}
+
+.nav-links ul {
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+}
+
+.nav-links li {
+    margin: 0 15px;
+}
+
+.nav-links a {
+    text-decoration: none;
+    color: #58B2CC;
+    padding: 10px 15px;
+    position: relative;
+}
+
+.nav-links a::after {
+    content: '';
+    display: block;
+    height: 2px;
+    background: #58B2CC;
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    transform: scaleX(0);
+    transition: transform 0.3s ease;
+}
+
+.nav-links a:hover::after {
+    transform: scaleX(1);
+}
+
+.language-switch {
+    margin-left: 20px;
+    font-size: 16px;
+    color: #58B2CC;
+}
+
+/* 图片部分居中 */
+.index-header {
+    width: 80%;
+    height: 80%;
+    object-fit: cover;
+    display: block;
+    margin: 20px auto; /* 使图片居中 */
+}
+
+.container {
+    display: flex;
+    justify-content: center; /* 水平居中 */
+    align-items: center;     /* 垂直居中 */
+    height: 100vh;           /* 使容器占满整个视口 */
+}
+
+
+/* 基础样式重置与设置 */
+body {
+    margin: 0;
+    font-family: Arial, sans-serif;
+    background-image: url('background.jpg');
+    background-size: cover;
+    background-position: center;
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+/* 导航栏样式 */
+header {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    z-index: 1000;
+    padding: 0 3px;
+}
+
+.navbar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+    background-color: rgba(0, 0, 0, 0.9);
+    border-bottom: 2px solid rgba(88, 178, 204, 0.8);
+    padding: 10px 0;
+}
+
+.logo img {
+    height: 60px;
+}
+
+.nav-links {
+    flex-grow: 1;
+    display: flex;
+    justify-content: center;
+}
+
+.nav-links ul {
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+}
+
+.nav-links li {
+    margin: 0 15px;
+}
+
+.nav-links a {
+    text-decoration: none;
+    color: #58B2CC;
+    padding: 10px 15px;
+    position: relative;
+}
+
+.nav-links a::after {
+    content: '';
+    display: block;
+    height: 2px;
+    background: #58B2CC;
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    transform: scaleX(0);
+    transition: transform 0.3s ease;
+}
+
+.nav-links a:hover::after {
+    transform: scaleX(1);
+}
+
+.language-switch {
+    margin-left: 20px;
+    font-size: 16px;
+    color: #58B2CC;
+}
+
+/* 图片样式 */
+.index-header {
+    width: 80%;
+    height: 80%;
+    object-fit: cover;
+    display: block;
+    margin: 20px auto;
+}
+
+.container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+}
+
+/* 优化后的导航栏样式 */
+.navbar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+    background-color: rgba(0, 0, 0, 0.9);
+    border-bottom: 2px solid rgba(88, 178, 204, 0.8); /* 保持原有边框 */
+    padding: 10px 20px; /* 增加左右内边距 */
+    box-sizing: border-box; /* 确保padding不影响总宽度 */
+}
+
+/* 优化logo居中显示 */
+.logo {
+    flex: 0 0 auto;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.logo img {
+    height: 60px;
+    display: block; /* 移除图片底部间隙 */
+}
+
+/* 优化导航链接居中 */
+.nav-links {
+    flex: 1; /* 让导航链接占据中间可用空间 */
+    display: flex;
+    justify-content: center; /* 水平居中 */
+    margin: 0 20px; /* 与logo和右侧保持距离 */
+}
+
+.nav-links ul {
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    align-items: center; /* 垂直居中 */
+}
+
+/* 调整导航项间距，确保整体居中美观 */
+.nav-links li {
+    margin: 0 12px; /* 略微减小间距，避免溢出 */
+}
+
+/* 保持链接hover效果 */
+.nav-links a {
+    text-decoration: none;
+    color: #58B2CC;
+    padding: 10px 12px;
+    position: relative;
+    white-space: nowrap; /* 防止链接文字换行 */
+}
+
+/* 语言切换区域调整 */
+.language-switch {
+    flex: 0 0 auto;
+    padding: 0 15px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+        /* 玩法介绍图片样式 */
+        .article-content {
+            text-align: center;
+            padding: 10px 0;
+        }
+
+        .article-content img {
+            width: 100%;
+            max-width: 100%; /* 修改这里，将 500px 改为 100% */
+            height: auto;
+            border-radius: 4px;
+            border: 1px solid rgba(88, 178, 204, 0.3);
+        }
